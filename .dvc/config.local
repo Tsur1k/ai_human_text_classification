@@ -1,0 +1,2 @@
+['remote "myremote"']
+    gdrive_use_service_account = false
