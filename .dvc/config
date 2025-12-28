@@ -2,7 +2,7 @@
     dir = .dvc/cache
     type = symlink
 [core]
-    remote = myremote
-['remote "myremote"']
+    remote = data
+['remote "data"']
     url = gdrive://1V3fTJKWkC17C_lQd1ExvFWmUKe16aW-0
     gdrive_use_service_account = false

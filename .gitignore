@@ -2,3 +2,6 @@
 .parquet
 .venv
 /data
+/config.local
+/tmp
+/cache
