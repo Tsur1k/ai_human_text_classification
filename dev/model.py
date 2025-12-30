@@ -82,10 +82,8 @@ class GRUClassifier(nn.Module):
         embedded = self.embedding(input_ids)
         embedded = self.embedding_dropout(embedded)
 
-        # 2. GRU
         if lengths is not None:
-            # Используем pack_padded_sequence для эффективности
-            lengths = lengths.cpu()  # pack_padded требует CPU тензоры
+            lengths = lengths.cpu()  
             packed_embedded = nn.utils.rnn.pack_padded_sequence(
                 embedded,
                 lengths,
@@ -94,17 +92,13 @@ class GRUClassifier(nn.Module):
             )
             packed_output, hidden = self.gru(packed_embedded)
         else:
-            # Без pack_padded (менее эффективно)
             output, hidden = self.gru(embedded)
 
-        # 3. Получаем фичи из hidden states
         if self.bidirectional:
-            # Конкатенируем forward и backward hidden states
             hidden = torch.cat([hidden[-2], hidden[-1]], dim=-1)
         else:
             hidden = hidden[-1]
 
-        # 4. Классификация
         if return_features:
             return hidden
 
@@ -113,12 +107,10 @@ class GRUClassifier(nn.Module):
         return logits
 
     def predict_proba(self, input_ids: torch.Tensor, lengths: Optional[torch.Tensor] = None) -> torch.Tensor:
-        """Предсказывает вероятности классов"""
         logits = self.forward(input_ids, lengths)
         return F.softmax(logits, dim=-1)
 
     def predict(self, input_ids: torch.Tensor, lengths: Optional[torch.Tensor] = None) -> torch.Tensor:
-        """Предсказывает классы"""
         logits = self.forward(input_ids, lengths)
         return torch.argmax(logits, dim=-1)
 

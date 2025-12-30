@@ -69,29 +69,27 @@ class ModelTrainer:
         model: nn.Module,
         train_loader: DataLoader,
         val_loader: DataLoader,
-        cfg: DictConfig,  # <-- ИЗМЕНЕНИЕ: вместо отдельных конфигов берем один DictConfig
+        cfg: DictConfig,  
         device: str = None
     ):
         self.model = model
         self.train_loader = train_loader
         self.val_loader = val_loader
-        self.cfg = cfg  # <-- Сохраняем конфиг Hydra
+        self.cfg = cfg  
         
-        # Извлекаем конфиги из общего конфига
         self.training_config = cfg.training
         self.model_config = cfg.model
         
         self.device = device or torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = self.model.to(self.device)
         
-        # Получаем MLflowConfig из конфига Hydra
         mlflow_config_dict = cfg.mlflow if hasattr(cfg, 'mlflow') else {}
         self.mlflow_config = MLflowConfig(**mlflow_config_dict)
         self.mlflow_logger = MLflowLogger(self.mlflow_config)
         
         self.optimizer = optim.Adam(
             model.parameters(), 
-            lr=self.training_config.learning_rate  # <-- Берем из конфига
+            lr=self.training_config.learning_rate  
         )
         self.criterion = nn.CrossEntropyLoss()
         
@@ -115,7 +113,6 @@ class ModelTrainer:
         return metrics
     
     def train_epoch(self) -> Tuple[float, Dict]:
-        """Обучение на одной эпохе"""
         self.model.train()
         total_loss = 0
         all_outputs = []
@@ -150,7 +147,6 @@ class ModelTrainer:
         return avg_loss, metrics
     
     def validate(self) -> Tuple[float, Dict]:
-        """Валидация модели"""
         self.model.eval()
         total_loss = 0
         all_outputs = []
@@ -181,7 +177,6 @@ class ModelTrainer:
         return avg_loss, metrics
     
     def train(self, epochs: int = None):
-        """Основной цикл обучения"""
         if epochs is None:
             epochs = self.training_config.max_epochs
         
@@ -212,20 +207,17 @@ class ModelTrainer:
         print(f"Начинаем обучение на {epochs} эпох")
         
         for epoch in range(1, epochs + 1):
-            print(f"\n📊 Эпоха {epoch}/{epochs}")
+            print(f"\n Эпоха {epoch}/{epochs}")
             
-            # Обучение
             train_loss, train_metrics = self.train_epoch()
             print(f"   Train Loss: {train_loss:.4f}")
             
-            # Валидация
             val_loss, val_metrics = self.validate()
             print(f"   Val Loss: {val_loss:.4f}")
             print(f"   Val F1: {val_metrics.get('f1', 0):.4f}")
             if 'roc_auc' in val_metrics:
                 print(f"   Val ROC-AUC: {val_metrics['roc_auc']:.4f}")
             
-            # Логирование в MLflow
             if self.mlflow_logger.enabled:
                 mlflow_metrics = {
                     'train_loss': train_loss,
@@ -237,7 +229,6 @@ class ModelTrainer:
                 
                 self.mlflow_logger.log_metrics(mlflow_metrics, step=epoch)
             
-            # Сохранение лучшей модели
             if epoch == 1 or val_loss < min(h['val_loss'] for h in self.history):
                 if self.mlflow_logger.enabled:
                     self.mlflow_logger.log_model(self.model)
@@ -349,7 +340,6 @@ class ConfigLoader:
         self.config_dir = Path.cwd().parent / config_dir
         
     def load_yaml(self, filename: str) -> Dict[str, Any]:
-        """Загрузка YAML файла"""
         filepath = self.config_dir / filename
 
         if not filepath.exists():
