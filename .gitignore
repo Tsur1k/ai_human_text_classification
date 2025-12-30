@@ -5,3 +5,5 @@
 /config.local
 /tmp
 /cache
+/__pycache__
+mlflow.db

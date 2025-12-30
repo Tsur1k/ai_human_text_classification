@@ -1,0 +1,3 @@
+data_train: data/train_tokenized.csv
+data_valid: data/valid_tokenized.csv
+data_test: data/test_tokenized.csv
