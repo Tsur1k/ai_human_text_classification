@@ -7,3 +7,5 @@
 /cache
 /__pycache__
 mlflow.db
+.dvc/.dvc/cache/
+.dvc/tmp/
