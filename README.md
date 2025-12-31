@@ -48,3 +48,21 @@ poetry install
 Установка хуков для pre-commit:
 
 poetry run pre-commit install
+
+# Train
+
+Активируйте окружение:
+
+poetry env activate
+
+Для отслеживания метрик в ходе обучения и валидации необходимо поднять локально mlflow:
+
+mlflow server --host 127.0.0.1 --port 8080
+
+Подтяните данные для обучения и тестирования модели:
+
+dvc pull
+
+Запустите модель обучаться:
+
+poetry run python train.py
