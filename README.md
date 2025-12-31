@@ -33,15 +33,18 @@ train-а 10% объектов. Во время валидации мы смот�
 
 Клонирование репозитория:
 
-git clone git@github.com:Tsur1k/ai_human_text_classification.git После клонирования
-репозитория перейдите в его папку:
+git clone git@github.com:Tsur1k/ai_human_text_classification.git 
+
+После клонирования репозитория перейдите в его папку
 
 Установите Poetry для управления зависимостями:
 
 pip install poetry 
+
 Установка зависимостей проекта:
 
 poetry install 
+
 Установка хуков для pre-commit:
 
 poetry run pre-commit install
