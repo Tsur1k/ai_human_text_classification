@@ -38,6 +38,10 @@ git clone git@github.com:Tsur1k/ai_human_text_classification.git После кл
 
 Установите Poetry для управления зависимостями:
 
-pip install poetry Установка зависимостей проекта:
+pip install poetry 
+Установка зависимостей проекта:
 
-poetry install Установка хуков для pre-commit:
+poetry install 
+Установка хуков для pre-commit:
+
+poetry run pre-commit install
