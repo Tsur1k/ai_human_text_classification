@@ -24,7 +24,9 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
-        run: poetry install --with dev
+        run: |
+          poetry lock --no-update
+          poetry install --with dev
 
       - name: Run Ruff Linter
         run: poetry run ruff check .
