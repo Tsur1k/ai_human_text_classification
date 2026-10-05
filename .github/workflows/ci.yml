@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          poetry lock --no-update
+          poetry lock
           poetry install --with dev
 
       - name: Run Ruff Linter
