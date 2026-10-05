@@ -1,0 +1,29 @@
+# Git
+.git
+.gitignore
+
+.venv
+venv
+env
+
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+.dvc/cache
+.mlflow
+artefacts/
+*.dvc
+data/
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+tests/
+README.md
+MODEL_CARD.md
