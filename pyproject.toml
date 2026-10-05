@@ -8,6 +8,7 @@ authors = [
 license = {text = "MIT"}
 readme = "README.md"
 requires-python = ">=3.11"
+package-mode = false
 dependencies = [
     "pandas (>=2.3.3,<3.0.0)",
     "lightning (>=2.6.0,<3.0.0)",
